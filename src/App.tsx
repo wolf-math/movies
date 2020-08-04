@@ -1,5 +1,18 @@
 import React from 'react';
-import { IonApp } from '@ionic/react';
+import { IonApp, 
+  IonHeader, 
+  IonContent, 
+  IonToolbar, 
+  IonTitle, 
+  IonGrid, 
+  IonRow, 
+  IonCol, 
+  IonItem, 
+  IonLabel
+ } from '@ionic/react';
+
+import { api } from './api-key';
+import MovieList from './components/MovieList';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -20,10 +33,35 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
-const App: React.FC = () => (
+const App: React.FC = () => {
+
+
+
+  return(
   <IonApp>
-    <h2>Hello World!</h2>
+    <IonHeader>
+      <IonToolbar>
+        <IonTitle>
+          Movies
+        </IonTitle>
+      </IonToolbar>
+    </IonHeader>
+    <IonContent>
+      {/* <IonGrid>
+        <IonRow>
+          <IonCol>
+            <IonItem>
+              <IonLabel>
+                
+              </IonLabel>
+            </IonItem>
+          </IonCol>
+        </IonRow>
+      </IonGrid> */}
+      <MovieList />
+    </IonContent>
   </IonApp>
-);
+  );
+};
 
 export default App;
