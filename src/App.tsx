@@ -1,4 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+
+
+
+import axios from 'axios';
+
 import { IonApp, 
   IonHeader, 
   IonContent, 
@@ -12,7 +17,6 @@ import { IonApp,
  } from '@ionic/react';
 
 import { api } from './api-key';
-import MovieList from './components/MovieList';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -35,7 +39,26 @@ import './theme/variables.css';
 
 const App: React.FC = () => {
 
+  // const Movies = () => {
+  //   axios.get(`https://api.themoviedb.org/3/movie/600?api_key=e5c11f114654078cdd16ed8de91aedf0`)
+  //   .then(res => {
+  //     console.log(res);
+  //   })
+  // }
 
+  
+  const getMovies = async () => {
+    try{
+      const response = await axios.get(`https://api.themoviedb.org/3/movie/600?api_key=e5c11f114654078cdd16ed8de91aedf0`)
+      await console.log(response)
+      
+    }catch(error){
+      console.log(error.message);
+    }}
+    useEffect(() => {
+    getMovies();
+    },[])
+    
 
   return(
   <IonApp>
@@ -58,7 +81,7 @@ const App: React.FC = () => {
           </IonCol>
         </IonRow>
       </IonGrid> */}
-      <MovieList />
+
     </IonContent>
   </IonApp>
   );
