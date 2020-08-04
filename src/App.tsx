@@ -38,20 +38,11 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 
 const App: React.FC = () => {
-
-  // const Movies = () => {
-  //   axios.get(`https://api.themoviedb.org/3/movie/600?api_key=e5c11f114654078cdd16ed8de91aedf0`)
-  //   .then(res => {
-  //     console.log(res);
-  //   })
-  // }
-
   
   const getMovies = async () => {
     try{
-      const response = await axios.get(`https://api.themoviedb.org/3/movie/600?api_key=e5c11f114654078cdd16ed8de91aedf0`)
+      const response = await axios.get(`https://api.themoviedb.org/3/movie/600?${api}`)
       await console.log(response)
-      
     }catch(error){
       console.log(error.message);
     }}
@@ -59,7 +50,6 @@ const App: React.FC = () => {
     getMovies();
     },[])
     
-
   return(
   <IonApp>
     <IonHeader>
