@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 
 
@@ -38,18 +38,21 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 
 const App: React.FC = () => {
-  
-  const getMovies = async () => {
+  const [movies, setMovies] = useState<[]>([]);
+
+  const GetMovies = async () => {
     try{
-      const response = await axios.get(`https://api.themoviedb.org/3/movie/600?${api}`)
-      await console.log(response)
-    }catch(error){
+      const response = await axios.get(`https://api.themoviedb.org/3/movie/600?${api}`);
+      setMovies(response.data) // await (movieInfo = useState(response)); //console.log(response) //JSON data
+    } catch(error) {
       console.log(error.message);
-    }}
-    useEffect(() => {
-    getMovies();
-    },[])
-    
+    }
+  }
+  useEffect(() => {
+    GetMovies();
+  }, [movies]);
+  
+  
   return(
   <IonApp>
     <IonHeader>
@@ -60,17 +63,17 @@ const App: React.FC = () => {
       </IonToolbar>
     </IonHeader>
     <IonContent>
-      {/* <IonGrid>
+      <IonGrid>
         <IonRow>
           <IonCol>
             <IonItem>
               <IonLabel>
-                
+                Some stuff!
               </IonLabel>
             </IonItem>
           </IonCol>
         </IonRow>
-      </IonGrid> */}
+      </IonGrid>
 
     </IonContent>
   </IonApp>
