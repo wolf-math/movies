@@ -14,7 +14,8 @@ import { IonApp,
   IonItem, 
   IonLabel,
   IonCardHeader,
-  IonCard
+  IonCard,
+  IonSearchbar
  } from '@ionic/react';
 
 import { api, poster } from './constants';
@@ -42,6 +43,7 @@ import './theme/variables.css';
 const App: React.FC = () => {
   const [movies, setMovies] = useState<[]>([]);
 
+  // API Call
   const GetMovies = async () => {
     try{
       const response = await axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${api}&language=en-US&page=1`);
@@ -55,6 +57,8 @@ const App: React.FC = () => {
     GetMovies();
   }, []);
    
+  // Search
+  const [searchText, setSearchText] = useState('');
 
   return(
   <IonApp>
@@ -65,8 +69,8 @@ const App: React.FC = () => {
         </IonTitle>
       </IonToolbar>
     </IonHeader>
-    <input placeholder="search" />
     <IonContent>
+      <IonSearchbar value={searchText} onIonChange={e => setSearchText(e.detail.value!)}></IonSearchbar>
       <IonGrid>
         <IonRow>
           <IonCol>
@@ -77,7 +81,6 @@ const App: React.FC = () => {
           </IonCol>
         </IonRow>
       </IonGrid>
-
     </IonContent>
   </IonApp>
   );
