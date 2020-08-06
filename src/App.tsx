@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-
-
-
 import axios from 'axios';
+
+// import GetMovies from './components/GetMovies';
 
 import { IonApp, 
   IonHeader, 
@@ -13,10 +12,13 @@ import { IonApp,
   IonRow, 
   IonCol, 
   IonItem, 
-  IonLabel
+  IonLabel,
+  IonCardHeader,
+  IonCard
  } from '@ionic/react';
 
-import { api } from './api-key';
+import { api } from './constants';
+import MoviePoster from './components/MoviePoster';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -42,17 +44,18 @@ const App: React.FC = () => {
 
   const GetMovies = async () => {
     try{
-      const response = await axios.get(`https://api.themoviedb.org/3/movie/600?${api}`);
-      setMovies(response.data) // await (movieInfo = useState(response)); //console.log(response) //JSON data
+      const response = await axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${api}&language=en-US&page=1`);
+      setMovies(response.data.results) // await (movieInfo = useState(response)); //console.log(response) //JSON data
+      
     } catch(error) {
       console.log(error.message);
     }
   }
   useEffect(() => {
     GetMovies();
-  }, [movies]);
-  
-  
+  }, []);
+   
+
   return(
   <IonApp>
     <IonHeader>
@@ -62,15 +65,14 @@ const App: React.FC = () => {
         </IonTitle>
       </IonToolbar>
     </IonHeader>
+    <input placeholder="search" />
     <IonContent>
       <IonGrid>
         <IonRow>
           <IonCol>
-            <IonItem>
-              <IonLabel>
-                Some stuff!
-              </IonLabel>
-            </IonItem>
+            {movies.map(({title, release_date, poster_path}, idx)=> (
+              <MoviePoster key={idx} title={title} />
+            ))}
           </IonCol>
         </IonRow>
       </IonGrid>
