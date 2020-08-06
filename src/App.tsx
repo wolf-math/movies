@@ -17,7 +17,7 @@ import { IonApp,
   IonCard
  } from '@ionic/react';
 
-import { api } from './constants';
+import { api, poster } from './constants';
 import MoviePoster from './components/MoviePoster';
 
 /* Core CSS required for Ionic components to work properly */
@@ -71,7 +71,8 @@ const App: React.FC = () => {
         <IonRow>
           <IonCol>
             {movies.map(({title, release_date, poster_path}, idx)=> (
-              <MoviePoster key={idx} title={title} />
+              <MoviePoster key={idx} title={title}
+              poster={`${poster}${poster_path}`} />
             ))}
           </IonCol>
         </IonRow>
