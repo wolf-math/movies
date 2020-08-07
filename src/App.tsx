@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useBottomScrollListener } from 'react-bottom-scroll-listener';
 
 // import GetMovies from './components/GetMovies';
 
@@ -10,11 +11,7 @@ import { IonApp,
   IonTitle, 
   IonGrid, 
   IonRow, 
-  IonCol, 
-  IonItem, 
-  IonLabel,
-  IonCardHeader,
-  IonCard,
+  IonCol,
   IonSearchbar
  } from '@ionic/react';
 
@@ -44,10 +41,13 @@ const App: React.FC = () => {
   const [movies, setMovies] = useState<[]>([]);
 
   // API Call
+  let page = 1;
+  const url = `https://api.themoviedb.org/3/movie/popular?api_key=${api}&language=en-US&page=${page}`;
+
   const GetMovies = async () => {
     try{
-      const response = await axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${api}&language=en-US&page=1`);
-      setMovies(response.data.results) // await (movieInfo = useState(response)); //console.log(response) //JSON data
+      const response = await axios.get(url);
+      setMovies(response.data.results) //JSON data
       
     } catch(error) {
       console.log(error.message);
@@ -57,6 +57,16 @@ const App: React.FC = () => {
     GetMovies();
   }, []);
    
+  // Infinite Scroll: https://dev.to/daviddalbusco/infinite-scroll-with-ionic-react-3a3i
+
+  const pageIncrease = () => {
+    console.log('bottom')
+  }
+
+  const scrollRef = useBottomScrollListener(pageIncrease);
+
+    // GetMovies
+
   // Search
   const [searchText, setSearchText] = useState('');
 
@@ -82,6 +92,7 @@ const App: React.FC = () => {
         </IonRow>
       </IonGrid>
     </IonContent>
+    <div ref={scrollRef}>Callback will be invoked when this container is scrolled to bottom.</div>
   </IonApp>
   );
 };
