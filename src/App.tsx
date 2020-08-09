@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useBottomScrollListener } from 'react-bottom-scroll-listener';
+import {IonInfiniteScroll, IonInfiniteScrollContent} from '@ionic/react';
 
 // import GetMovies from './components/GetMovies';
 
@@ -56,16 +56,12 @@ const App: React.FC = () => {
   useEffect(() => {
     GetMovies();
   }, []);
-   
-  // Infinite Scroll: https://dev.to/daviddalbusco/infinite-scroll-with-ionic-react-3a3i
 
-  const pageIncrease = () => {
-    console.log('bottom')
+  async function NextPage($event: CustomEvent<void>){
+    await GetMovies();
+
+    ($event.target as HTMLIonInfiniteScrollElement).complete();
   }
-
-  const scrollRef = useBottomScrollListener(pageIncrease);
-
-    // GetMovies
 
   // Search
   const [searchText, setSearchText] = useState('');
@@ -88,11 +84,21 @@ const App: React.FC = () => {
               <MoviePoster key={idx} title={title}
               poster={`${poster}${poster_path}`} />
             ))}
+            <IonInfiniteScroll threshold="100px"
+              
+              onIonInfinite={(
+                e: CustomEvent<void>) => {
+                  page++
+                  GetMovies()}}>
+              <IonInfiniteScrollContent
+                  loadingText="Loading more movies...">
+              </IonInfiniteScrollContent>
+            </IonInfiniteScroll>
+
           </IonCol>
         </IonRow>
       </IonGrid>
     </IonContent>
-    <div ref={scrollRef}>Callback will be invoked when this container is scrolled to bottom.</div>
   </IonApp>
   );
 };
