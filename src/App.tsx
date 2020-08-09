@@ -44,6 +44,8 @@ const App: React.FC = () => {
   let page = 1;
   const url = `https://api.themoviedb.org/3/movie/popular?api_key=${api}&language=en-US&page=${page}`;
 
+  //const searchUrl = `https://api.themoviedb.org/3/search/${searchTitle}?api_key=${api}&page=1`
+
   const GetMovies = async () => {
     try{
       const response = await axios.get(url);
@@ -64,7 +66,13 @@ const App: React.FC = () => {
   }
 
   // Search
-  const [searchText, setSearchText] = useState('');
+  // const [searchText, setSearchText] = useState(['']);
+
+  // const Search = searchText => {
+  //   const newSearch:string = {searchText}
+  //   setSearchText(newSearch)
+    
+  // }
 
   return(
   <IonApp>
@@ -76,7 +84,7 @@ const App: React.FC = () => {
       </IonToolbar>
     </IonHeader>
     <IonContent>
-      <IonSearchbar value={searchText} onIonChange={e => setSearchText(e.detail.value!)}></IonSearchbar>
+      {/* <IonSearchbar value={searchText} onIonChange={e => setSearchText(e.detail.value!)}></IonSearchbar> */}
       <IonGrid>
         <IonRow>
           <IonCol>
@@ -88,13 +96,13 @@ const App: React.FC = () => {
               
               onIonInfinite={(
                 e: CustomEvent<void>) => {
-                  page++
+                  page++;
+                  console.log(page);
                   GetMovies()}}>
               <IonInfiniteScrollContent
                   loadingText="Loading more movies...">
               </IonInfiniteScrollContent>
             </IonInfiniteScroll>
-
           </IonCol>
         </IonRow>
       </IonGrid>
