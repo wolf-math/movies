@@ -1,17 +1,18 @@
 import React, { FC } from 'react';
 import { IonCard, IonCardHeader, IonButton} from '@ionic/react';
 
-interface MovieProps { 
+interface MovieInfo { 
     title:string; 
     poster:string;
+
  }
 
-const MoviePoster: FC<MovieProps> = ({title, poster}) => (
+const MovieInfo: FC<MovieInfo> = ({title, poster}) => (
     <IonCard >
         <img src={poster} />
         <IonCardHeader>{title}</IonCardHeader>
-        <button ion-button>More</button>
+        <button>More</button>
     </IonCard>
 )
 
-export default MoviePoster;
+export default MovieInfo;

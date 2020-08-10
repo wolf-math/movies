@@ -57,6 +57,8 @@ const App: React.FC = () => {
     GetMovies();
   }, []);
 
+
+  // Infinite Scroll -- I'm not sure why this isn't working.
   async function NextPage($event: CustomEvent<void>){
     page++;
     await GetMovies();
