@@ -58,8 +58,8 @@ const App: React.FC = () => {
   }, []);
 
   async function NextPage($event: CustomEvent<void>){
+    page++;
     await GetMovies();
-
     ($event.target as HTMLIonInfiniteScrollElement).complete();
   }
 
@@ -68,6 +68,7 @@ const App: React.FC = () => {
 
   const searchUrl = `https://api.themoviedb.org/3/search/${searchText}?api_key=${api}&page=1`
 
+  // This is firing when the page loads instead of when you hit enter.
   const SearchMovies = async () => {
     try{
       const response = await axios.get(searchUrl);
@@ -103,10 +104,12 @@ const App: React.FC = () => {
             <IonInfiniteScroll threshold="100px"
               
               onIonInfinite={(
+                // onIonInfinite={(e: CustomEvent<void>) => searchNext(e)}>
+
                 e: CustomEvent<void>) => {
                   page++;
                   console.log(page);
-                  GetMovies()}}>
+                  NextPage(e)}}>
               <IonInfiniteScrollContent
                   loadingText="Loading more movies...">
               </IonInfiniteScrollContent>
