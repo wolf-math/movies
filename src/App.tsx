@@ -104,13 +104,10 @@ const App: React.FC = () => {
               poster={`${poster}${poster_path}`} />
             ))}
             <IonInfiniteScroll threshold="100px"
-              
               onIonInfinite={(
-                // onIonInfinite={(e: CustomEvent<void>) => searchNext(e)}>
-
                 e: CustomEvent<void>) => {
                   page++;
-                  console.log(page);
+                  console.log(page); // Just to make sure the page increased
                   NextPage(e)}}>
               <IonInfiniteScrollContent
                   loadingText="Loading more movies...">
