@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {IonInfiniteScroll, IonInfiniteScrollContent} from '@ionic/react';
 
-// import GetMovies from './components/GetMovies';
+// import getMovies from './components/getMovies';
 
 import { IonApp, 
   IonHeader, 
@@ -38,52 +38,53 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 
 const App: React.FC = () => {
-  const [movies, setMovies] = useState<[]>([]);
-
+  const [movies, setMovies] = useState<any>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   // API Call
-  let page = 1;
-  const url = `https://api.themoviedb.org/3/movie/popular?api_key=${api}&language=en-US&page=${page}`;
-
-  const GetMovies = async () => {
+  const getMovies = async (p: number = currentPage) => {
+    console.log(p);
     try{
-      const response = await axios.get(url);
-      setMovies(response.data.results) //JSON data
-      
+      const url = `https://api.themoviedb.org/3/movie/popular?api_key=${api}&language=en-US&page=${p}`;
+      const {data:{page, results}} = await axios.get(url);
+      console.log(page);
+      const newMovies = [...movies, ...results]
+      setMovies(newMovies) //JSON data
+      if (p !== page){ //this line is never triggered!!!
+        setCurrentPage(p);
+      }
+      setCurrentPage(p ++)
     } catch(error) {
       console.log(error.message);
     }
   }
   useEffect(() => {
-    GetMovies();
+    getMovies();
   }, []);
 
 
-  // Infinite Scroll -- I'm not sure why this isn't working.
   async function NextPage($event: CustomEvent<void>){
-    page++;
-    await GetMovies();
+    
+    await getMovies(currentPage+1);
     ($event.target as HTMLIonInfiniteScrollElement).complete();
   }
 
-  // Search -- This should be integrated with GetMovies, but it's fine for now
+  // Search -- This should be integrated with getMovies, but it's fine for now
   const [searchText, setSearchText] = useState('');
 
-  const searchUrl = `https://api.themoviedb.org/3/search/${searchText}?api_key=${api}&page=1`
+  const searchUrl = ""
 
   // This is firing when the page loads instead of when you hit enter.
   const SearchMovies = async () => {
     try{
       const response = await axios.get(searchUrl);
       setSearchText(response.data.results) //JSON data
-      console.log(searchText)
       
     } catch(error) {
       console.log(error.message);
     }
   }
-  useEffect(() => {
-    SearchMovies();
-  }, []);
+
+  console.log(movies)
 
   return(
   <IonApp>
@@ -99,15 +100,13 @@ const App: React.FC = () => {
       <IonGrid>
         <IonRow>
           <IonCol>
-            {movies.map(({title, release_date, poster_path}, idx)=> (
+            {movies.map(({title, release_date, poster_path}: any, idx: number)=> (
               <MoviePoster key={idx} title={title}
               poster={`${poster}${poster_path}`} />
             ))}
             <IonInfiniteScroll threshold="100px"
               onIonInfinite={(
                 e: CustomEvent<void>) => {
-                  page++;
-                  console.log(page); // Just to make sure the page increased
                   NextPage(e)}}>
               <IonInfiniteScrollContent
                   loadingText="Loading more movies...">

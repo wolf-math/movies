@@ -4,6 +4,7 @@ import { IonCard, IonCardHeader, IonButton} from '@ionic/react';
 interface MovieInfo { 
     title:string; 
     poster:string;
+    details: string;
 
  }
 
