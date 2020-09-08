@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { IonCard, IonCardHeader, IonButton} from '@ionic/react';
+import { IonCard, IonCardHeader } from '@ionic/react';
 
 interface MovieProps { 
     title:string; 
